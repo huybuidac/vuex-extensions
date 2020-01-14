@@ -1,0 +1,47 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/vuex
+  docker:
+    - image: circleci/node:8-browsers
+
+jobs:
+  install:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-vuex-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-vuex-{{ .Branch }}
+            - v1-vuex
+      - run:
+          name: Installing Dependencies
+          command: yarn
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: v1-vuex-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - vuex
+
+  test-unit:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Running Unit Tests
+          command: |
+            yarn test:unit
+
+workflows:
+  version: 2
+  install-and-parallel-test:
+    jobs:
+      - install
+      - test-unit:
+          requires:
+            - install
