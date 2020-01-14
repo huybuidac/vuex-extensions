@@ -1,0 +1,28 @@
+{
+  "name": "vuex-extensions",
+  "version": "1.0.1",
+  "description": "Make Vuex greate again",
+  "main": "lib/index.js",
+  "repository": "https://github.com/huybuidac/vuex-extensions.git",
+  "author": "huybuidac@gmail.com",
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "babel src -d lib",
+    "test:unit": "vue-cli-service test:unit"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@vue/cli-plugin-unit-jest": "^4.1.2",
+    "@vue/cli-service": "^4.1.2",
+    "@vue/test-utils": "^1.0.0-beta.30",
+    "npm": "^6.13.6",
+    "vue": "^2.6.11",
+    "vuex": "^3.1.2"
+  },
+  "dependencies": {}
+}
