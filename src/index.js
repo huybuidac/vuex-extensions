@@ -44,7 +44,7 @@ function injectModule(m, mixins) {
 }
 
 function getOriginalState(module) {
-  const state = module._rawModule.originalState || {}
+  const state = module._rawModule.originalState
   module.forEachChild((child, key) => {
     state[key] = getOriginalState(child)
   })
