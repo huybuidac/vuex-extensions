@@ -36,7 +36,7 @@ jobs:
           name: Running Unit Tests
           command: |
             yarn test:unit
-      - store_artifacts:
+      - store_test_results:
           path: coverage
 
 workflows:
