@@ -6,8 +6,16 @@
   "repository": "https://github.com/huybuidac/vuex-extensions.git",
   "author": "huybuidac@gmail.com",
   "license": "MIT",
+  "keywords": [
+    "vuex",
+    "reset",
+    "mixins",
+    "vuex-reset",
+    "vuex-mixins"
+  ],
   "files": [
-    "lib"
+    "lib",
+    "README.md"
   ],
   "scripts": {
     "build": "babel src -d lib",
