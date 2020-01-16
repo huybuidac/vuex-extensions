@@ -17,6 +17,11 @@ yarn add vuex-extensions
 ```
 
 ## Usage
+
+Check out the example on [CodeSandbox](https://codesandbox.io/s/lively-thunder-hrh2o).
+
+[![Edit vuex-persistedstate](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/lively-thunder-hrh2o)
+
 #### Creating Vuex.Store
 ```js
 import Vuex from 'vuex'
