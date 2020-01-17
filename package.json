@@ -19,7 +19,8 @@
   ],
   "scripts": {
     "build": "babel src -d lib",
-    "test:unit": "vue-cli-service test:unit --collectCoverage=true"
+    "test:unit": "vue-cli-service test:unit --collectCoverage=true",
+    "test:unit:coverage": "yarn test:unit && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.3",
@@ -28,6 +29,7 @@
     "@vue/cli-plugin-unit-jest": "^4.1.2",
     "@vue/cli-service": "^4.1.2",
     "@vue/test-utils": "^1.0.0-beta.30",
+    "coveralls": "^3.0.9",
     "npm": "^6.13.6",
     "vue": "^2.6.11",
     "vuex": "^3.1.2"

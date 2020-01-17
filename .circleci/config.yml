@@ -35,9 +35,7 @@ jobs:
       - run:
           name: Running Unit Tests
           command: |
-            yarn test:unit
-      - store_artifacts:
-          path: coverage
+            yarn test:unit:coverage
 
 workflows:
   version: 2
