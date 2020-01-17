@@ -3,8 +3,7 @@ Adding Reset and Mixins funtionanity to Vuex
 
 <hr />
 
-[![CircleCI](https://circleci.com/gh/huybuidac/vuex-extensions.svg?style=svg)](https://circleci.com/gh/huybuidac/vuex-extensions) [![npm version](https://badge.fury.io/js/vuex-extensions.svg)](https://badge.fury.io/js/vuex-extensions)[![Coverage Status](https://coveralls.io/github/huybuidac/vuex-extensions/badge.svg?branch=master)](https://coveralls.io/github/huybuidac/vuex-extensions?branch=master)
-
+[![CircleCI](https://circleci.com/gh/huybuidac/vuex-extensions.svg?style=svg)](https://circleci.com/gh/huybuidac/vuex-extensions) [![npm version](https://badge.fury.io/js/vuex-extensions.svg)](https://badge.fury.io/js/vuex-extensions)[![Coverage Status](https://coveralls.io/repos/github/huybuidac/vuex-extensions/badge.svg?branch=master)](https://coveralls.io/github/huybuidac/vuex-extensions?branch=master)
 
 ## Install
 You can install it via NPM
