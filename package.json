@@ -1,6 +1,6 @@
 {
   "name": "vuex-extensions",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Make Vuex greate again",
   "main": "lib/index.js",
   "repository": "https://github.com/huybuidac/vuex-extensions.git",
