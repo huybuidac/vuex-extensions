@@ -27,6 +27,16 @@ jobs:
           paths:
             - vuex
 
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Running Build
+          command: |
+            yarn build
+
   test-unit:
     <<: *defaults
     steps:
@@ -37,11 +47,34 @@ jobs:
           command: |
             yarn test:unit:coverage
 
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish
+
 workflows:
   version: 2
   install-and-parallel-test:
     jobs:
       - install
-      - test-unit:
+      - build:
           requires:
             - install
+      - test-unit:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test-unit
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only: master
