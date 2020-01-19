@@ -9,17 +9,19 @@ const createStore = (vuexStoreClass, options = {}) => {
     injectModule(m, mixins)
   })
 
-  // dynamic module
-  const rawRegisterModule = vuexStoreClass.prototype.registerModule;
-  vuexStoreClass.prototype.registerModule = function (path, rawModule, options = {}) {
-    injectModule(rawModule, mixins)
-    rawRegisterModule.call(this, path, rawModule, options)
-  }
+  if (!vuexStoreClass.prototype.reset) {
+    // dynamic module
+    const rawRegisterModule = vuexStoreClass.prototype.registerModule;
+    vuexStoreClass.prototype.registerModule = function (path, rawModule, options = {}) {
+      injectModule(rawModule, mixins)
+      rawRegisterModule.call(this, path, rawModule, options)
+    }
 
-  // reset to original state
-  vuexStoreClass.prototype.reset = function () {
-    const originalState = getOriginalState(this._modules.root)
-    this.replaceState(deepCopy(originalState))
+    // reset to original state
+    vuexStoreClass.prototype.reset = function () {
+      const originalState = getOriginalState(this._modules.root)
+      this.replaceState(deepCopy(originalState))
+    }
   }
 
   const store = new vuexStoreClass(options)
