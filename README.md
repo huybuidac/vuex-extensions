@@ -1,5 +1,5 @@
 # Vuex Extensions
-Adding Reset and Mixins funtionanity to Vuex
+Add Reset and Mixins function to Vuex
 
 <hr />
 

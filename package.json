@@ -1,7 +1,7 @@
 {
   "name": "vuex-extensions",
-  "version": "1.0.4",
-  "description": "Make Vuex greate again",
+  "version": "1.0.5",
+  "description": "Add Reset and Mixins function to Vuex",
   "main": "lib/index.js",
   "repository": "https://github.com/huybuidac/vuex-extensions.git",
   "author": "huybuidac@gmail.com",
