@@ -15,12 +15,10 @@ then
   yarn test:unit
 
   # commit
-  git add -A
-  git commit -m "[build] $VERSION"
   yarn version --new-version $VERSION
 
   # publish
   git push origin refs/tags/v$VERSION
   git push
-  npm publish
+  yarn publish
 fi
