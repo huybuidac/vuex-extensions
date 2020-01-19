@@ -47,21 +47,9 @@ jobs:
           command: |
             yarn test:unit:coverage
 
-  deploy:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-      - run:
-          name: Publish package
-          command: npm publish
-
 workflows:
   version: 2
-  install-and-parallel-test:
+  install-build-test:
     jobs:
       - install
       - build:
@@ -70,11 +58,3 @@ workflows:
       - test-unit:
           requires:
             - build
-      - deploy:
-          requires:
-            - test-unit
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
