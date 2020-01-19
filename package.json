@@ -1,12 +1,13 @@
 {
   "name": "vuex-extensions",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "Add Reset and Mixins function to Vuex",
   "main": "lib/index.js",
   "types": "src/index.d.ts",
   "repository": "https://github.com/huybuidac/vuex-extensions.git",
   "author": "huybuidac@gmail.com",
   "license": "MIT",
+  "typings": "types/index.d.ts",
   "keywords": [
     "vuex",
     "reset",
@@ -16,6 +17,7 @@
   ],
   "files": [
     "lib",
+    "types",
     "README.md"
   ],
   "scripts": {
