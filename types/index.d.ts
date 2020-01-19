@@ -1,9 +1,15 @@
-import { StoreOptions, Store } from 'vuex'
+import { Store, StoreOptions, GetterTree, ActionTree, MutationTree } from 'vuex'
 
-export declare function createStore<S>(storeClass: typeof Store, options: StoreOptions<S>): Store<S>;
+export interface ResetableStore<S> extends Store<S> {
+  reset(): void;
+}
 
-declare const _default: {
-  createStore: typeof createStore;
-};
+export interface MixinStoreOptions<S> extends StoreOptions<S> {
+  mixins?: {
+    getters?: GetterTree<S, S>;
+    actions?: ActionTree<S, S>;
+    mutations?: MutationTree<S>;
+  };
+}
 
-export default _default;
+export declare function createStore<S>(vuexStoreClass: typeof Store, options?: MixinStoreOptions<S>): ResetableStore<S>
