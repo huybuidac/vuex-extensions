@@ -5,6 +5,10 @@ Add Reset and Mixins function to Vuex
 
 [![CircleCI](https://circleci.com/gh/huybuidac/vuex-extensions.svg?style=svg)](https://circleci.com/gh/huybuidac/vuex-extensions) [![npm version](https://badge.fury.io/js/vuex-extensions.svg)](https://badge.fury.io/js/vuex-extensions) [![Coverage Status](https://coveralls.io/repos/github/huybuidac/vuex-extensions/badge.svg?branch=master)](https://coveralls.io/github/huybuidac/vuex-extensions?branch=master)
 
+## Resources
+
+* Medium: [Reset Vuex Modules to initial state](https://medium.com/@huybuidac_12792/reset-vuex-module-state-d2573bfbd78)
+
 ## Install
 You can install it via NPM
 ```console
@@ -79,5 +83,6 @@ modules: {
         }
       }
     })
+    
     store.dispatch('sub/test')
 ```
