@@ -86,3 +86,44 @@ modules: {
     
     store.dispatch('sub/test')
 ```
+
+#### getInitialModuleState
+There are 2 ways to get inital module state:
+1. By *namespace*
+```js
+const store = createStore(Vuex.Store, {
+  state: {
+    count: 0,
+  },
+  modules: {
+    sub: {
+      namespaced: true,
+      state: {
+        count: 0
+      }
+    }
+  },
+})
+
+store.getInitialModuleState() // root state
+store.getInitialModuleState('sub') // sub state
+```
+2. By *actionContext*
+```js
+const store = createStore(Vuex.Store, {
+  modules: {
+    sub: {
+      namespaced: true,
+      state: {
+        count: 0
+      },
+      actions: {
+        resetLocal(context) {
+          const initalState = this.getInitialModuleState(context)
+        }
+      }
+    }
+  }
+})
+```
+For real implementation, using mixins as a guru: [getInitialModuleState-unittest](tests/unit/store-getInitialModuleState.spec.js#L63) 
