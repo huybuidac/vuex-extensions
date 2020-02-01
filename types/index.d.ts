@@ -2,6 +2,11 @@ import { Store, StoreOptions, GetterTree, ActionTree, MutationTree } from 'vuex'
 
 export interface ResetableStore<S> extends Store<S> {
   reset(): void;
+
+  /**
+   * @param context could be namespaced or actionContext 
+   */
+  getInitialModuleState(context: string | object): object;
 }
 
 export interface MixinStoreOptions<S> extends StoreOptions<S> {

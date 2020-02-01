@@ -30,7 +30,7 @@ describe('Store->mixins', () => {
     })
   })
 
-  it('root module adds changeState mutation', done => {
+  it('root module adds getters mutation', done => {
     const store = createStore(Vuex.Store, {
       state: {
         count: 0,
@@ -50,7 +50,7 @@ describe('Store->mixins', () => {
     })
   })
 
-  it('root module adds changeState mutation', done => {
+  it('root module adds actions & mutation', done => {
     const store = createStore(Vuex.Store, {
       state: {
         count: 0,
