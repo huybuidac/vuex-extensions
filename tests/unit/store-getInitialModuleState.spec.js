@@ -41,7 +41,9 @@ describe('Store->getInitialModuleState', () => {
     expect(store.getInitialModuleState().count).toBe(0)
     expect(store.getInitialModuleState('').count).toBe(0)
     expect(store.getInitialModuleState('a').count).toBe(0)
+
     expect(store.getInitialModuleState('b')).toBe(null)
+    expect(store.getInitialModuleState({})).toBe(null)
 
     store.commit('change')
     store.commit('a/change')
