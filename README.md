@@ -87,7 +87,7 @@ modules: {
     store.dispatch('sub/test')
 ```
 
-#### getInitialModuleState
+#### Get initial Module state
 There are 2 ways to get inital module state:
 1. By *namespace*
 ```js
