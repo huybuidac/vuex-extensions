@@ -8,6 +8,7 @@ Add Reset and Mixins function to Vuex
 ## Resources
 
 * Medium: [Reset Vuex Modules to initial state](https://medium.com/@huybuidac_12792/reset-vuex-module-state-d2573bfbd78)
+* Medium: [How to use Mixins in Vuex](https://medium.com/@huybuidac_12792/how-to-use-mixins-in-vuex-777f7dc0e5a6)
 
 ## Install
 You can install it via NPM
