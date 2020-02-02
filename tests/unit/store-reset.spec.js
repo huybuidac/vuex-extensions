@@ -78,6 +78,48 @@ describe('Store->reset', () => {
       })
     })
 
+  it('#16 initial nested module', done => {
+    const store = createStore(Vuex.Store, {
+      modules: {
+        child: {
+          namespaced: true,
+          state: {
+            count: 1
+          },
+          mutations: {
+            [TEST]: state => state.count++
+          },
+          modules: {
+            grandchild: {
+              namespaced: true,
+              state: {
+                count: 1
+              },
+              mutations: {
+                [TEST]: state => state.count++
+              }
+            }
+          }
+        }
+      }
+    })
+
+    store.commit('child/' + TEST)
+    store.commit('child/grandchild/' + TEST)
+
+    Vue.nextTick(() => {
+      expect(store.state.child.count).toBe(2)
+      expect(store.state.child.grandchild.count).toBe(2)
+
+      store.reset()
+      Vue.nextTick(() => {
+        expect(store.state.child.count).toBe(1)
+        expect(store.state.child.grandchild.count).toBe(1)
+        done()
+      })
+    })
+  })
+
   it('reset twice', done => {
     const store = createStore(Vuex.Store, {
       state: {
