@@ -5,9 +5,6 @@ const createStore = (vuexStoreClass, options = {}) => {
 
   // static module
   injectModule(options, mixins)
-  Object.values(options.modules || {}).forEach(m => {
-    injectModule(m, mixins)
-  })
 
   if (!vuexStoreClass.prototype.reset) {
     // dynamic module
@@ -29,7 +26,7 @@ const createStore = (vuexStoreClass, options = {}) => {
 }
 
 function injectModule(m, mixins) {
-  m.originalState = deepCopy((typeof m.state === 'function' ? m.state() : m.state) || {})
+  m._originalState = deepCopy((typeof m.state === 'function' ? m.state() : m.state) || {})
 
   const { mutations, actions, getters } = mixins
   if (mutations) {
@@ -43,10 +40,16 @@ function injectModule(m, mixins) {
   if (getters) {
     m.getters = { ...getters, ...(m.getters || {}) }
   }
+
+  if (m.modules) {
+    Object.values(m.modules).forEach(subModule => {
+      injectModule(subModule, mixins)
+    })
+  }
 }
 
 function getOriginalState(module) {
-  const state = module._rawModule.originalState || {}
+  const state = module._rawModule._originalState || {}
   module.forEachChild((child, key) => {
     state[key] = getOriginalState(child)
   })
