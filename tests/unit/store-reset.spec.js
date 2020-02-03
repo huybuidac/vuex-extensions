@@ -48,35 +48,35 @@ describe('Store->reset', () => {
         done()
       })
     })
-  }),
+  })
 
-    it('reset sub module', done => {
-      const store = createStore(Vuex.Store, {
-        modules: {
-          sub: {
-            namespaced: true,
-            state: {
-              count: 0
-            },
-            mutations: {
-              [TEST]: state => state.count++
-            }
+  it('reset sub module', done => {
+    const store = createStore(Vuex.Store, {
+      modules: {
+        sub: {
+          namespaced: true,
+          state: {
+            count: 0
+          },
+          mutations: {
+            [TEST]: state => state.count++
           }
         }
-      })
-      // console.log(store)
-      store.commit('sub/' + TEST)
+      }
+    })
+    // console.log(store)
+    store.commit('sub/' + TEST)
 
+    Vue.nextTick(() => {
+      expect(store.state.sub.count).toBe(1)
+
+      store.reset()
       Vue.nextTick(() => {
-        expect(store.state.sub.count).toBe(1)
-
-        store.reset()
-        Vue.nextTick(() => {
-          expect(store.state.sub.count).toBe(0)
-          done()
-        })
+        expect(store.state.sub.count).toBe(0)
+        done()
       })
     })
+  })
 
   it('#16 initial nested module', done => {
     const store = createStore(Vuex.Store, {
@@ -152,6 +152,122 @@ describe('Store->reset', () => {
           })
         })
       })
+    })
+  })
+
+  const generateOptionResetStore = () => {
+    const store = createStore(Vuex.Store, {
+      modules: {
+        child1: {
+          namespaced: true,
+          state: {
+            count: 0
+          },
+          modules: {
+            grand1: {
+              namespaced: true,
+              state: {
+                count: 0
+              }
+            },
+            grand2: {
+              namespaced: true,
+              state: {
+                count: 0
+              }
+            }
+          }
+        },
+        child2: {
+          namespaced: true,
+          state: {
+            count: 0
+          },
+          modules: {
+            grand1: {
+              namespaced: true,
+              state: {
+                count: 0
+              }
+            },
+            grand2: {
+              namespaced: true,
+              state: {
+                count: 0
+              }
+            }
+          }
+        }
+      },
+      mixins: {
+        mutations: {
+          increase: (state) => state.count++
+        }
+      }
+    })
+    store.commit('child1/grand1/increase')
+    store.commit('child1/grand2/increase')
+    store.commit('child2/grand1/increase')
+    store.commit('child2/grand2/increase')
+
+    return store
+  }
+  it('reset with option: includes', done => {
+    const store = generateOptionResetStore()
+    store.reset({
+      includes: [
+        'child1',
+        { name: 'child2', nested: ['grand1'] }
+      ]
+    })
+
+    Vue.nextTick(() => {
+      expect(store.state.child1.grand1.count).toBe(0)
+      expect(store.state.child1.grand2.count).toBe(0)
+      expect(store.state.child2.grand1.count).toBe(0)
+      expect(store.state.child2.grand2.count).toBe(1)
+      done()
+    })
+  })
+
+  it('reset with option: excludes', done => {
+    const store = generateOptionResetStore()
+    store.reset({
+      excludes: [
+        'child1',
+        { name: 'child2', nested: ['grand1'] }
+      ]
+    })
+
+    Vue.nextTick(() => {
+      expect(store.state.child1.grand1.count).toBe(1)
+      expect(store.state.child1.grand2.count).toBe(1)
+      expect(store.state.child2.grand1.count).toBe(1)
+      expect(store.state.child2.grand2.count).toBe(0)
+      done()
+    })
+  })
+
+  it('reset with option: mixed excludes & includes', done => {
+    const store = generateOptionResetStore()
+    store.reset({
+      includes: [
+        { name: 'child1', nested: ['grand1', 'grand2'] },
+        { name: 'child2' },
+        { nested: ['grand1'] } // ignore
+      ],
+      excludes: [
+        'child1',
+        123, // ignore
+        { name: 'child2', nested: ['grand1'] }
+      ]
+    })
+    Vue.nextTick(() => {
+      expect(store.state.child1.grand1.count).toBe(1)
+      expect(store.state.child1.grand2.count).toBe(1)
+      expect(store.state.child2.grand1.count).toBe(1)
+      expect(store.state.child2.grand2.count).toBe(0)
+      done()
     })
   })
 })

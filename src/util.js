@@ -6,7 +6,7 @@
  * @param {Function} f
  * @return {*}
  */
-export function find (list, f) {
+export function find(list, f) {
   return list.filter(f)[0]
 }
 
@@ -19,7 +19,7 @@ export function find (list, f) {
  * @param {Array<Object>} cache
  * @return {*}
  */
-export function deepCopy (obj, cache = []) {
+export function deepCopy(obj, cache = []) {
   // just return if obj is immutable value
   if (obj === null || typeof obj !== 'object') {
     return obj
@@ -44,4 +44,16 @@ export function deepCopy (obj, cache = []) {
   })
 
   return copy
+}
+
+export function isObject(obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+export const logger = {
+  error: text => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(`[vuex-ex] ${text}`)
+    }
+  }
 }
