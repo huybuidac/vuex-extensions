@@ -1,14 +1,14 @@
 import { Store, StoreOptions, GetterTree, ActionTree, MutationTree } from 'vuex'
 
-export interface ResetDetailModuleOption {
+export interface ResetModuleOption {
   name: string
-  nested?: ResetDetailModuleOption[]
+  nested?: ResetModuleOption[]
 }
 
 export interface StoreExtended<S> extends Store<S> {
   reset(options?: {
-    includes?: (string | ResetDetailModuleOption)[],
-    excludes?: (string | ResetDetailModuleOption)[]
+    includes?: (string | ResetModuleOption)[],
+    excludes?: (string | ResetModuleOption)[]
   }): void;
 }
 
