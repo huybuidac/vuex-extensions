@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as types from './mutation-types'
-import { createStore } from '../../../lib'
+import { createStore } from '../../../'
 
 Vue.use(Vuex)
 
@@ -61,7 +61,7 @@ const actions = {
 		commit('changeState', {added: []})
 	},
 	logout() {
-		this.reset()
+		store.reset()
 	}
 }
 
@@ -83,7 +83,7 @@ const mutations = {
 }
 
 // one store for entire application
-export default createStore(Vuex.Store, {
+const store = createStore(Vuex.Store, {
 	state,
 	strict: debug,
 	getters,
@@ -100,3 +100,5 @@ export default createStore(Vuex.Store, {
     }
   }
 })
+
+export default store

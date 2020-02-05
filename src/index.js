@@ -15,8 +15,8 @@ const createStore = (vuexStoreClass, options = {}) => {
     }
 
     // reset to original state
-    vuexStoreClass.prototype.reset = function () {
-      const originalState = getOriginalState(this._modules.root)
+    vuexStoreClass.prototype.reset = function (options) {
+      const originalState = getOriginalState(this._modules.root, deepCopy(this._vm._data.$$state), options)
       this.replaceState(deepCopy(originalState))
     }
   }
@@ -48,10 +48,20 @@ function injectModule(m, mixins) {
   }
 }
 
-function getOriginalState(module) {
-  const state = module._rawModule._originalState || {}
-  module.forEachChild((child, key) => {
-    state[key] = getOriginalState(child)
+function getOriginalState(module, moduleVueState, options = {}, defaultReset = true) {
+  if (options.self === undefined) {
+    options.self = defaultReset
+  }
+  if (options.nested === undefined) {
+    options.nested = options.self
+  }
+  const state = options.self ? module._rawModule._originalState : moduleVueState
+  module.forEachChild((childModule, key) => {
+    let nestOption = {}
+    if (options.modules && options.modules[key]) {
+      nestOption = { ...options.modules[key] }
+    }
+    state[key] = getOriginalState(childModule, moduleVueState[key], nestOption, options.nested)
   })
   return state
 }

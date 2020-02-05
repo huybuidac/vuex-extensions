@@ -48,35 +48,35 @@ describe('Store->reset', () => {
         done()
       })
     })
-  }),
+  })
 
-    it('reset sub module', done => {
-      const store = createStore(Vuex.Store, {
-        modules: {
-          sub: {
-            namespaced: true,
-            state: {
-              count: 0
-            },
-            mutations: {
-              [TEST]: state => state.count++
-            }
+  it('reset sub module', done => {
+    const store = createStore(Vuex.Store, {
+      modules: {
+        sub: {
+          namespaced: true,
+          state: {
+            count: 0
+          },
+          mutations: {
+            [TEST]: state => state.count++
           }
         }
-      })
-      // console.log(store)
-      store.commit('sub/' + TEST)
+      }
+    })
+    // console.log(store)
+    store.commit('sub/' + TEST)
 
+    Vue.nextTick(() => {
+      expect(store.state.sub.count).toBe(1)
+
+      store.reset()
       Vue.nextTick(() => {
-        expect(store.state.sub.count).toBe(1)
-
-        store.reset()
-        Vue.nextTick(() => {
-          expect(store.state.sub.count).toBe(0)
-          done()
-        })
+        expect(store.state.sub.count).toBe(0)
+        done()
       })
     })
+  })
 
   it('#16 initial nested module', done => {
     const store = createStore(Vuex.Store, {
@@ -152,6 +152,154 @@ describe('Store->reset', () => {
           })
         })
       })
+    })
+  })
+
+  const generateOptionResetStore = () => {
+    const store = createStore(Vuex.Store, {
+      state: {
+        count: 0
+      },
+      modules: {
+        child1: {
+          namespaced: true,
+          state: {
+            count: 0
+          },
+          modules: {
+            grand1: {
+              namespaced: true,
+              state: {
+                count: 0
+              }
+            },
+            grand2: {
+              namespaced: true,
+              state: {
+                count: 0
+              }
+            }
+          }
+        },
+        child2: {
+          namespaced: true,
+          state: {
+            count: 0
+          },
+          modules: {
+            grand1: {
+              namespaced: true,
+              state: {
+                count: 0
+              }
+            },
+            grand2: {
+              namespaced: true,
+              state: {
+                count: 0
+              }
+            }
+          }
+        }
+      },
+      mixins: {
+        mutations: {
+          increase: (state) => state.count++
+        }
+      }
+    })
+    store.commit('increase')
+    store.commit('child1/increase')
+    store.commit('child1/grand1/increase')
+    store.commit('child1/grand2/increase')
+    store.commit('child2/increase')
+    store.commit('child2/grand1/increase')
+    store.commit('child2/grand2/increase')
+
+    return store
+  }
+
+  it('reset only 1 module', done => {
+    const store = generateOptionResetStore()
+    store.reset({
+      self: false,
+      modules: {
+        child1: {
+          modules: {
+            grand1: {
+              self: true
+            }
+          }
+        }
+      }
+    })
+
+    Vue.nextTick(() => {
+      expect(store.state.count).toBe(1)
+      expect(store.state.child1.count).toBe(1)
+      expect(store.state.child1.grand1.count).toBe(0)
+      expect(store.state.child1.grand2.count).toBe(1)
+      expect(store.state.child2.count).toBe(1)
+      expect(store.state.child2.grand1.count).toBe(1)
+      expect(store.state.child2.grand2.count).toBe(1)
+      done()
+    })
+  })
+
+  it('reset all without 1', done => {
+    const store = generateOptionResetStore()
+    store.reset({
+      self: true,
+      modules: {
+        child2: {
+          modules: {
+            grand2: {
+              self: false
+            }
+          }
+        }
+      }
+    })
+
+    Vue.nextTick(() => {
+      expect(store.state.count).toBe(0)
+      expect(store.state.child1.count).toBe(0)
+      expect(store.state.child1.grand1.count).toBe(0)
+      expect(store.state.child1.grand2.count).toBe(0)
+      expect(store.state.child2.count).toBe(0)
+      expect(store.state.child2.grand1.count).toBe(0)
+      expect(store.state.child2.grand2.count).toBe(1)
+      done()
+    })
+  })
+
+  it('reset overlap parent default', done => {
+    const store = generateOptionResetStore()
+    store.reset({
+      self: false,
+      nested: true,
+      modules: {
+        child2: {
+          self: false,
+          nested: true,
+          modules: {
+            grand2: {
+              self: false
+            }
+          }
+        }
+      }
+    })
+
+    Vue.nextTick(() => {
+      expect(store.state.count).toBe(1)
+      expect(store.state.child1.count).toBe(0)
+      expect(store.state.child1.grand1.count).toBe(0)
+      expect(store.state.child1.grand2.count).toBe(0)
+      expect(store.state.child2.count).toBe(1)
+      expect(store.state.child2.grand1.count).toBe(0)
+      expect(store.state.child2.grand2.count).toBe(1)
+      done()
     })
   })
 })
