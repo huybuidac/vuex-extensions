@@ -157,6 +157,9 @@ describe('Store->reset', () => {
 
   const generateOptionResetStore = () => {
     const store = createStore(Vuex.Store, {
+      state: {
+        count: 0
+      },
       modules: {
         child1: {
           namespaced: true,
@@ -205,68 +208,97 @@ describe('Store->reset', () => {
         }
       }
     })
+    store.commit('increase')
+    store.commit('child1/increase')
     store.commit('child1/grand1/increase')
     store.commit('child1/grand2/increase')
+    store.commit('child2/increase')
     store.commit('child2/grand1/increase')
     store.commit('child2/grand2/increase')
 
     return store
   }
-  it('reset with option: includes', done => {
+
+  it('reset only 1 module', done => {
     const store = generateOptionResetStore()
     store.reset({
-      includes: [
-        'child1',
-        { name: 'child2', nested: ['grand1'] }
-      ]
+      self: false,
+      modules: {
+        child1: {
+          modules: {
+            grand1: {
+              self: true
+            }
+          }
+        }
+      }
     })
 
     Vue.nextTick(() => {
+      expect(store.state.count).toBe(1)
+      expect(store.state.child1.count).toBe(1)
+      expect(store.state.child1.grand1.count).toBe(0)
+      expect(store.state.child1.grand2.count).toBe(1)
+      expect(store.state.child2.count).toBe(1)
+      expect(store.state.child2.grand1.count).toBe(1)
+      expect(store.state.child2.grand2.count).toBe(1)
+      done()
+    })
+  })
+
+  it('reset all without 1', done => {
+    const store = generateOptionResetStore()
+    store.reset({
+      self: true,
+      modules: {
+        child2: {
+          modules: {
+            grand2: {
+              self: false
+            }
+          }
+        }
+      }
+    })
+
+    Vue.nextTick(() => {
+      expect(store.state.count).toBe(0)
+      expect(store.state.child1.count).toBe(0)
       expect(store.state.child1.grand1.count).toBe(0)
       expect(store.state.child1.grand2.count).toBe(0)
+      expect(store.state.child2.count).toBe(0)
       expect(store.state.child2.grand1.count).toBe(0)
       expect(store.state.child2.grand2.count).toBe(1)
       done()
     })
   })
 
-  it('reset with option: excludes', done => {
+  it('reset overlap parent default', done => {
     const store = generateOptionResetStore()
     store.reset({
-      excludes: [
-        'child1',
-        { name: 'child2', nested: ['grand1'] }
-      ]
+      self: false,
+      nested: true,
+      modules: {
+        child2: {
+          self: false,
+          nested: true,
+          modules: {
+            grand2: {
+              self: false
+            }
+          }
+        }
+      }
     })
 
     Vue.nextTick(() => {
-      expect(store.state.child1.grand1.count).toBe(1)
-      expect(store.state.child1.grand2.count).toBe(1)
-      expect(store.state.child2.grand1.count).toBe(1)
-      expect(store.state.child2.grand2.count).toBe(0)
-      done()
-    })
-  })
-
-  it('reset with option: mixed excludes & includes', done => {
-    const store = generateOptionResetStore()
-    store.reset({
-      includes: [
-        { name: 'child1', nested: ['grand1', 'grand2'] },
-        { name: 'child2' },
-        { nested: ['grand1'] } // ignore
-      ],
-      excludes: [
-        'child1',
-        123, // ignore
-        { name: 'child2', nested: ['grand1'] }
-      ]
-    })
-    Vue.nextTick(() => {
-      expect(store.state.child1.grand1.count).toBe(1)
-      expect(store.state.child1.grand2.count).toBe(1)
-      expect(store.state.child2.grand1.count).toBe(1)
-      expect(store.state.child2.grand2.count).toBe(0)
+      expect(store.state.count).toBe(1)
+      expect(store.state.child1.count).toBe(0)
+      expect(store.state.child1.grand1.count).toBe(0)
+      expect(store.state.child1.grand2.count).toBe(0)
+      expect(store.state.child2.count).toBe(1)
+      expect(store.state.child2.grand1.count).toBe(0)
+      expect(store.state.child2.grand2.count).toBe(1)
       done()
     })
   })

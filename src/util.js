@@ -46,14 +46,10 @@ export function deepCopy(obj, cache = []) {
   return copy
 }
 
-export function isObject(obj) {
-  return obj !== null && typeof obj === 'object'
-}
-
-export const logger = {
-  error: text => {
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(`[vuex-ex] ${text}`)
-    }
-  }
-}
+// export const logger = {
+//   error: text => {
+//     if (process.env.NODE_ENV !== 'production') {
+//       console.error(`[vuex-ex] ${text}`)
+//     }
+//   }
+// }
