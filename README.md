@@ -1,12 +1,18 @@
+<p align="center">
+  <img alt="vuex-extensions" height="100" src="./docs/images/logo.png">
+</p>
+<p align="center">
+   Reset function and Mixins option for Vuex
+</p>
+<p align="center">
+  <a href="https://circleci.com/gh/huybuidac/vuex-extensions"><img alt="npm" src="https://circleci.com/gh/huybuidac/vuex-extensions.svg?style=svg"></a>
+  <a href="https://badge.fury.io/js/vuex-extensions"><img alt="npm" src="https://badge.fury.io/js/vuex-extensions.svg"></a>
+  <a href="https://coveralls.io/github/huybuidac/vuex-extensions?branch=master"><img alt="npm" src="https://coveralls.io/repos/github/huybuidac/vuex-extensions/badge.svg?branch=master"></a>
+</p>
+
+
 # Vuex Extensions
 Add Reset and Mixins function to Vuex
-
-<hr />
-
-<p align="center">
-  <img alt="vuex-extensions" src="./docs/images/logo.png">
-</p>
-[![CircleCI](https://circleci.com/gh/huybuidac/vuex-extensions.svg?style=svg)](https://circleci.com/gh/huybuidac/vuex-extensions) [![npm version](https://badge.fury.io/js/vuex-extensions.svg)](https://badge.fury.io/js/vuex-extensions) [![Coverage Status](https://coveralls.io/repos/github/huybuidac/vuex-extensions/badge.svg?branch=master)](https://coveralls.io/github/huybuidac/vuex-extensions?branch=master)
 
 ## Resources
 
