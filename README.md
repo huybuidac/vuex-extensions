@@ -47,6 +47,32 @@ export default createStore(Vuex.Store, {
 })
 ```
 
+#### Mixins: adding some default getters/mutations/actions to all modules
+```js
+    const store = createStore(Vuex.Store, {
+      modules: {
+        sub: {
+          namespaced: true,
+          state: {
+            count: 0
+          }
+        }
+      },
+      mixins: {
+        mutations: {
+          changeState: function (state, changed) {
+            Object.entries(changed)
+              .forEach(([name, value]) => {
+                state[name] = value
+              })
+          }
+        }
+      }
+    })
+    
+    store.commit('sub/changeState', { count: 1 })
+```
+
 #### Store resets to initial State
 ```js
 // Vue Component
@@ -66,33 +92,102 @@ modules: {
 }
 ```
 
-#### Mixins: adding some default getters/mutations/actions to all modules
-```js
-    const store = createStore(Vuex.Store, {
-      modules: {
-        sub: {
-          namespaced: true,
-          state: {
-            count: 0
-          },
-          actions: {
-            test: function({ commit }) {
-              commit('changeState', { count: 1 })
-            }
-          }
-        }
-      },
-      mixins: {
-        mutations: {
-          changeState: function (state, changed) {
-            Object.entries(changed)
-              .forEach(([name, value]) => {
-                state[name] = value
-              })
-          }
-        }
-      }
-    })
-    
-    store.dispatch('sub/test')
+##### Reset with option
+Assume: store has structure as:
 ```
+root
+  - state: { count: 0 }
+  - modules:
+    - child1
+      - state: { count: 0 }
+      - modules:
+        - grandchild1 { state: { count: 0 } }
+        - grandchild2 { state: { count: 0 } }
+    - child1
+      - state: { count: 0 }
+      - modules:
+        - grandchild1 { state: { count: 0 } }
+        - grandchild2 { state: { count: 0 } }
+```
+
+After some actions, store has state:
+```js
+{
+  state: { count: 1 },
+  child1: { 
+    state: { count: 1 }
+    grandchild1: { state: { count: 1 } }
+    grandchild2: { state: { count: 1 } }
+  },
+  child1: {
+    state: { count: 1 }
+    grandchild1: { state: { count: 1 } }
+    grandchild2: { state: { count: 1 } }
+  }
+}
+```
+
+```js
+// Reset root state only, all submodules are ingored
+this.$store.reset({ self: true, nested: false })
+// {
+//   state: { count: 0 },
+//   child1: { 
+//     state: { count: 1 }
+//     grandchild1: { state: { count: 1 } }
+//     grandchild2: { state: { count: 1 } }
+//   },
+//   child1: {
+//     state: { count: 1 }
+//     grandchild1: { state: { count: 1 } }
+//     grandchild2: { state: { count: 1 } }
+//   }
+// }
+
+// Reset child1 and all it's sub modules, all other modules are ingored
+this.$store.reset({ 
+  self: false,
+  nested: false, // if nested is not set (undefined), it will be equal to self
+  modules: { child1: { self: true} }
+})
+// {
+//   state: { count: 1 },
+//   child1: { 
+//     state: { count: 0 }
+//     grandchild1: { state: { count: 0 } }
+//     grandchild2: { state: { count: 0 } }
+//   },
+//   child1: {
+//     state: { count: 1 }
+//     grandchild1: { state: { count: 1 } }
+//     grandchild2: { state: { count: 1 } }
+//   }
+// }
+
+// Rest grandchild1 state only, all other modules are ingored
+this.$store.reset({ 
+  self: false,
+  // nested: false,
+  modules: { 
+    child1: {
+      modules: {
+        grandchild1: { self: true }
+      }
+    } 
+  }
+})
+// {
+//   state: { count: 1 },
+//   child1: { 
+//     state: { count: 1 }
+//     grandchild1: { state: { count: 0 } }
+//     grandchild2: { state: { count: 1 } }
+//   },
+//   child1: {
+//     state: { count: 1 }
+//     grandchild1: { state: { count: 1 } }
+//     grandchild2: { state: { count: 1 } }
+//   }
+// }
+```
+
