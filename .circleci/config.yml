@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/vuex
   docker:
-    - image: circleci/node:8-browsers
+    - image: circleci/chakracore-10-node
 
 jobs:
   install:
