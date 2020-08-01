@@ -302,4 +302,62 @@ describe('Store->reset', () => {
       done()
     })
   })
+
+  it('reset -> #29 check unwanted watcher', done => {
+    const store = createStore(Vuex.Store, {
+      state: {
+        count: 0
+      },
+      modules: {
+        child1: {
+          namespaced: true,
+          state: {
+            count: 0
+          }
+        },
+        child2: {
+          namespaced: true,
+          state: {
+            count: 0
+          }
+        }
+      },
+      mixins: {
+        mutations: {
+          increase: (state) => state.count++
+        }
+      }
+    })
+
+    store.commit('child2/increase')
+
+    Vue.nextTick(() => {
+      expect(store.state.child2.count).toBe(1)
+
+      var rootChanged = false;
+      var child1Changed = false;
+      var child2Changed = false;
+      store.watch(state => state.count, () => rootChanged = true)
+      store.watch(state => state.child1.count, () => child1Changed = true)
+      store.watch(state => state.child2.count, () => child2Changed = true)
+      
+      store.reset({
+        self: false,
+        modules: {
+          child2: {
+            self: true
+          }
+        }
+      })
+
+      Vue.nextTick(() => {
+        expect(rootChanged).toBe(false)
+        expect(child1Changed).toBe(false)
+
+        expect(child2Changed).toBe(true)
+        expect(store.state.child2.count).toBe(0)
+        done()
+      });
+    })
+  })
 })
