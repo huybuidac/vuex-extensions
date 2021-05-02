@@ -30,14 +30,22 @@ describe('Store->mixins', () => {
     })
   })
 
-  it('root module adds changeState mutation', done => {
+  it('getter mixins', done => {
     const store = createStore(Vuex.Store, {
       state: {
         count: 0,
       },
+      modules: {
+        sub: {
+          namespaced: true,
+          state: {
+            count: 1
+          }
+        }
+      },
       mixins: {
         getters: {
-          total: state => name => {
+          getState: state => name => {
             return state[name]
           }
         }
@@ -45,7 +53,8 @@ describe('Store->mixins', () => {
     })
 
     Vue.nextTick(() => {
-      expect(store.getters['total']('count')).toBe(0)
+      expect(store.getters['getState']('count')).toBe(0)
+      expect(store.getters['sub/getState']('count')).toBe(1)
       done()
     })
   })
