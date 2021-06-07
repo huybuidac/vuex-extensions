@@ -1,3 +1,9 @@
+---
+
+:fire: **HEADS UP!** You're currently looking at Vuex-extensions 4 branch. If you're looking for Vuex 3, [please check out `master` branch](https://github.com/huybuidac/vuex-extensions/tree/master).
+
+---
+
 <p align="center">
   <img alt="vuex-extensions" height="100" src="./docs/images/logo.png">
 </p>
@@ -38,10 +44,10 @@ Check out the example on [CodeSandbox](https://codesandbox.io/s/lively-thunder-h
 
 #### Creating Vuex.Store
 ```js
-import Vuex from 'vuex'
+import { Store } from 'vuex'
 import { createStore } from 'vuex-extensions'
 
-export default createStore(Vuex.Store, {
+export default createStore(Store, {
   plugins: []
   modules: {}
 })
@@ -75,6 +81,12 @@ export default createStore(Vuex.Store, {
 
 #### Store resets to initial State
 ```js
+import { useStore } from 'vuex'
+
+// Vue composition
+const store = useStore()
+store.reset()
+
 // Vue Component
 this.$store.reset()
 ```
