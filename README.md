@@ -1,3 +1,10 @@
+
+---
+
+:fire: **HEADS UP!** You're currently looking at Vuex-extensions 1 branch. If you're looking for Vuex-extensions 4, [please check out `vuex4` branch](https://github.com/huybuidac/vuex-extensions/tree/vuex4).
+
+---
+
 <p align="center">
   <img alt="vuex-extensions" height="100" src="./docs/images/logo.png">
 </p>
@@ -13,12 +20,6 @@
 
 # Vuex Extensions
 Add Reset and Mixins function to Vuex
-
----
-
-:fire: **HEADS UP!** You're currently looking at Vuex-extensions 1 branch. If you're looking for Vuex-extensions 4, [please check out `vuex4` branch](https://github.com/huybuidac/vuex-extensions/tree/vuex4).
-
----
 
 ## Resources
 
