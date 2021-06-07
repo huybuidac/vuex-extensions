@@ -8,15 +8,15 @@ const createStore = (vuexStoreClass, options = {}) => {
 
   if (!vuexStoreClass.prototype.reset) {
     // dynamic module
-    const rawRegisterModule = vuexStoreClass.prototype.registerModule;
-    vuexStoreClass.prototype.registerModule = function (path, rawModule, options = {}) {
+    const rawRegisterModule = vuexStoreClass.prototype.registerModule
+    vuexStoreClass.prototype.registerModule = function(path, rawModule, options = {}) {
       injectModule(rawModule, mixins)
       rawRegisterModule.call(this, path, rawModule, options)
     }
 
     // reset to original state
-    vuexStoreClass.prototype.reset = function (options) {
-      const originalState = getOriginalState(this._modules.root, deepCopy(this._vm._data.$$state), options)
+    vuexStoreClass.prototype.reset = function(options) {
+      const originalState = getOriginalState(this._modules.root, deepCopy(this._state.data), options)
       this.replaceState(deepCopy(originalState))
     }
   }
@@ -66,6 +66,4 @@ function getOriginalState(module, moduleVueState, options = {}, defaultReset = t
   return state
 }
 
-export {
-  createStore
-}
+export { createStore }

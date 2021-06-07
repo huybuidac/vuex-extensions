@@ -3,37 +3,31 @@ import Vue from 'vue'
 
 import { createStore } from '../../src'
 
-Vue.use(Vuex)
-
 describe('Store->mixins', () => {
   it('root module adds changeState mutation', done => {
     const store = createStore(Vuex.Store, {
       state: {
-        count: 0,
+        count: 0
       },
       mixins: {
         mutations: {
-          changeState: function (state, changed) {
-            Object.entries(changed)
-              .forEach(([name, value]) => {
-                state[name] = value
-              })
+          changeState: function(state, changed) {
+            Object.entries(changed).forEach(([name, value]) => {
+              state[name] = value
+            })
           }
         }
       }
     })
     store.commit('changeState', { count: 1 })
-
-    Vue.nextTick(() => {
-      expect(store.state.count).toBe(1)
-      done()
-    })
+    expect(store.state.count).toBe(1)
+    done()
   })
 
   it('getter mixins', done => {
     const store = createStore(Vuex.Store, {
       state: {
-        count: 0,
+        count: 0
       },
       modules: {
         sub: {
@@ -52,21 +46,19 @@ describe('Store->mixins', () => {
       }
     })
 
-    Vue.nextTick(() => {
-      expect(store.getters['getState']('count')).toBe(0)
-      expect(store.getters['sub/getState']('count')).toBe(1)
-      done()
-    })
+    expect(store.getters['getState']('count')).toBe(0)
+    expect(store.getters['sub/getState']('count')).toBe(1)
+    done()
   })
 
   it('root module adds changeState mutation', done => {
     const store = createStore(Vuex.Store, {
       state: {
-        count: 0,
+        count: 0
       },
       mixins: {
         actions: {
-          test({commit}) {
+          test({ commit }) {
             commit('changeCount')
           }
         },
@@ -79,10 +71,8 @@ describe('Store->mixins', () => {
     })
 
     store.dispatch('test')
-    Vue.nextTick(() => {
-      expect(store.state.count).toBe(1)
-      done()
-    })
+    expect(store.state.count).toBe(1)
+    done()
   })
 
   it('sub module adds changeState mutation', done => {
@@ -102,21 +92,18 @@ describe('Store->mixins', () => {
       },
       mixins: {
         mutations: {
-          changeState: function (state, changed) {
-            Object.entries(changed)
-              .forEach(([name, value]) => {
-                state[name] = value
-              })
+          changeState: function(state, changed) {
+            Object.entries(changed).forEach(([name, value]) => {
+              state[name] = value
+            })
           }
         }
       }
     })
     store.dispatch('sub/test')
 
-    Vue.nextTick(() => {
-      expect(store.state.sub.count).toBe(1)
-      done()
-    })
+    expect(store.state.sub.count).toBe(1)
+    done()
   })
 
   it('register module at runtime', done => {
@@ -128,11 +115,10 @@ describe('Store->mixins', () => {
       },
       mixins: {
         mutations: {
-          changeState: function (state, changed) {
-            Object.entries(changed)
-              .forEach(([name, value]) => {
-                state[name] = value
-              })
+          changeState: function(state, changed) {
+            Object.entries(changed).forEach(([name, value]) => {
+              state[name] = value
+            })
           }
         }
       }
@@ -145,9 +131,7 @@ describe('Store->mixins', () => {
     })
     store.commit('child/grandchild/changeState', { count: 1 })
 
-    Vue.nextTick(() => {
-      expect(store.state.child.grandchild.count).toBe(1)
-      done()
-    })
+    expect(store.state.child.grandchild.count).toBe(1)
+    done()
   })
 })

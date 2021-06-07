@@ -3,8 +3,6 @@ import Vue from 'vue'
 
 import { createStore } from '../../src'
 
-Vue.use(Vuex)
-
 const TEST = 'TEST'
 
 describe('Store->reset', () => {
@@ -33,21 +31,17 @@ describe('Store->reset', () => {
     })
     store.commit(TEST)
 
-    Vue.nextTick(() => {
-      expect(store.state.count).toBe(1)
-      expect(store.state.arr.length).toBe(1)
-      expect(store.state.obj.name).toBe(1)
-      expect(store.state.obj.subObj.name).toBe(1)
+    expect(store.state.count).toBe(1)
+    expect(store.state.arr.length).toBe(1)
+    expect(store.state.obj.name).toBe(1)
+    expect(store.state.obj.subObj.name).toBe(1)
 
-      store.reset()
-      Vue.nextTick(() => {
-        expect(store.state.count).toBe(0)
-        expect(store.state.arr.length).toBe(0)
-        expect(store.state.obj.name).toBe(0)
-        expect(store.state.obj.subObj.name).toBe(0)
-        done()
-      })
-    })
+    store.reset()
+    expect(store.state.count).toBe(0)
+    expect(store.state.arr.length).toBe(0)
+    expect(store.state.obj.name).toBe(0)
+    expect(store.state.obj.subObj.name).toBe(0)
+    done()
   })
 
   it('reset sub module', done => {
@@ -67,15 +61,11 @@ describe('Store->reset', () => {
     // console.log(store)
     store.commit('sub/' + TEST)
 
-    Vue.nextTick(() => {
-      expect(store.state.sub.count).toBe(1)
+    expect(store.state.sub.count).toBe(1)
 
-      store.reset()
-      Vue.nextTick(() => {
-        expect(store.state.sub.count).toBe(0)
-        done()
-      })
-    })
+    store.reset()
+    expect(store.state.sub.count).toBe(0)
+    done()
   })
 
   it('#16 initial nested module', done => {
@@ -107,23 +97,19 @@ describe('Store->reset', () => {
     store.commit('child/' + TEST)
     store.commit('child/grandchild/' + TEST)
 
-    Vue.nextTick(() => {
-      expect(store.state.child.count).toBe(2)
-      expect(store.state.child.grandchild.count).toBe(2)
+    expect(store.state.child.count).toBe(2)
+    expect(store.state.child.grandchild.count).toBe(2)
 
-      store.reset()
-      Vue.nextTick(() => {
-        expect(store.state.child.count).toBe(1)
-        expect(store.state.child.grandchild.count).toBe(1)
-        done()
-      })
-    })
+    store.reset()
+    expect(store.state.child.count).toBe(1)
+    expect(store.state.child.grandchild.count).toBe(1)
+    done()
   })
 
   it('reset twice', done => {
     const store = createStore(Vuex.Store, {
       state: {
-        arr: [],
+        arr: []
       },
       mutations: {
         [TEST]: state => {
@@ -133,26 +119,18 @@ describe('Store->reset', () => {
     })
     store.commit(TEST)
 
-    Vue.nextTick(() => {
-      expect(store.state.arr.length).toBe(1)
+    expect(store.state.arr.length).toBe(1)
 
-      store.reset()
-      Vue.nextTick(() => {
-        expect(store.state.arr.length).toBe(0)
+    store.reset()
+    expect(store.state.arr.length).toBe(0)
 
-        store.commit(TEST)
-        Vue.nextTick(() => {
-          expect(store.state.arr.length).toBe(1)
+    store.commit(TEST)
+    expect(store.state.arr.length).toBe(1)
 
-          store.reset()
-          Vue.nextTick(() => {
-            expect(store.state.arr.length).toBe(0)
+    store.reset()
+    expect(store.state.arr.length).toBe(0)
 
-            done()
-          })
-        })
-      })
-    })
+    done()
   })
 
   const generateOptionResetStore = () => {
@@ -204,7 +182,7 @@ describe('Store->reset', () => {
       },
       mixins: {
         mutations: {
-          increase: (state) => state.count++
+          increase: state => state.count++
         }
       }
     })
@@ -234,16 +212,14 @@ describe('Store->reset', () => {
       }
     })
 
-    Vue.nextTick(() => {
-      expect(store.state.count).toBe(1)
-      expect(store.state.child1.count).toBe(1)
-      expect(store.state.child1.grand1.count).toBe(0)
-      expect(store.state.child1.grand2.count).toBe(1)
-      expect(store.state.child2.count).toBe(1)
-      expect(store.state.child2.grand1.count).toBe(1)
-      expect(store.state.child2.grand2.count).toBe(1)
-      done()
-    })
+    expect(store.state.count).toBe(1)
+    expect(store.state.child1.count).toBe(1)
+    expect(store.state.child1.grand1.count).toBe(0)
+    expect(store.state.child1.grand2.count).toBe(1)
+    expect(store.state.child2.count).toBe(1)
+    expect(store.state.child2.grand1.count).toBe(1)
+    expect(store.state.child2.grand2.count).toBe(1)
+    done()
   })
 
   it('reset all without 1', done => {
@@ -261,16 +237,14 @@ describe('Store->reset', () => {
       }
     })
 
-    Vue.nextTick(() => {
-      expect(store.state.count).toBe(0)
-      expect(store.state.child1.count).toBe(0)
-      expect(store.state.child1.grand1.count).toBe(0)
-      expect(store.state.child1.grand2.count).toBe(0)
-      expect(store.state.child2.count).toBe(0)
-      expect(store.state.child2.grand1.count).toBe(0)
-      expect(store.state.child2.grand2.count).toBe(1)
-      done()
-    })
+    expect(store.state.count).toBe(0)
+    expect(store.state.child1.count).toBe(0)
+    expect(store.state.child1.grand1.count).toBe(0)
+    expect(store.state.child1.grand2.count).toBe(0)
+    expect(store.state.child2.count).toBe(0)
+    expect(store.state.child2.grand1.count).toBe(0)
+    expect(store.state.child2.grand2.count).toBe(1)
+    done()
   })
 
   it('reset overlap parent default', done => {
@@ -291,16 +265,14 @@ describe('Store->reset', () => {
       }
     })
 
-    Vue.nextTick(() => {
-      expect(store.state.count).toBe(1)
-      expect(store.state.child1.count).toBe(0)
-      expect(store.state.child1.grand1.count).toBe(0)
-      expect(store.state.child1.grand2.count).toBe(0)
-      expect(store.state.child2.count).toBe(1)
-      expect(store.state.child2.grand1.count).toBe(0)
-      expect(store.state.child2.grand2.count).toBe(1)
-      done()
-    })
+    expect(store.state.count).toBe(1)
+    expect(store.state.child1.count).toBe(0)
+    expect(store.state.child1.grand1.count).toBe(0)
+    expect(store.state.child1.grand2.count).toBe(0)
+    expect(store.state.child2.count).toBe(1)
+    expect(store.state.child2.grand1.count).toBe(0)
+    expect(store.state.child2.grand2.count).toBe(1)
+    done()
   })
 
   it('reset -> #29 check unwanted watcher', done => {
@@ -324,40 +296,45 @@ describe('Store->reset', () => {
       },
       mixins: {
         mutations: {
-          increase: (state) => state.count++
+          increase: state => state.count++
         }
       }
     })
 
     store.commit('child2/increase')
 
-    Vue.nextTick(() => {
-      expect(store.state.child2.count).toBe(1)
+    expect(store.state.child2.count).toBe(1)
 
-      var rootChanged = false;
-      var child1Changed = false;
-      var child2Changed = false;
-      store.watch(state => state.count, () => rootChanged = true)
-      store.watch(state => state.child1.count, () => child1Changed = true)
-      store.watch(state => state.child2.count, () => child2Changed = true)
-      
-      store.reset({
-        self: false,
-        modules: {
-          child2: {
-            self: true
-          }
+    var rootChanged = false
+    var child1Changed = false
+    var child2Changed = false
+    store.watch(
+      state => state.count,
+      () => (rootChanged = true)
+    )
+    store.watch(
+      state => state.child1.count,
+      () => (child1Changed = true)
+    )
+    store.watch(
+      state => state.child2.count,
+      () => (child2Changed = true)
+    )
+
+    store.reset({
+      self: false,
+      modules: {
+        child2: {
+          self: true
         }
-      })
-
-      Vue.nextTick(() => {
-        expect(rootChanged).toBe(false)
-        expect(child1Changed).toBe(false)
-
-        expect(child2Changed).toBe(true)
-        expect(store.state.child2.count).toBe(0)
-        done()
-      });
+      }
     })
+    expect(rootChanged).toBe(false)
+    expect(child1Changed).toBe(false)
+    setTimeout(() => {
+      expect(child2Changed).toBe(true)
+      expect(store.state.child2.count).toBe(0)
+      done()
+    }, 500)
   })
 })
