@@ -1,3 +1,4 @@
+
 ---
 
 :fire: **HEADS UP!** You're currently looking at Vuex-extensions 4 branch. If you're looking for Vuex 3, [please check out `master` branch](https://github.com/huybuidac/vuex-extensions/tree/master).
