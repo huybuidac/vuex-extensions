@@ -1,3 +1,9 @@
+---
+
+:fire: **HEADS UP!** You're currently looking at Vuex-extensions 1 branch. If you're looking for Vuex-extensions 4, [please check out `vuex4` branch](https://github.com/huybuidac/vuex-extensions/tree/vuex4).
+
+---
+
 <p align="center">
   <img alt="vuex-extensions" height="100" src="./docs/images/logo.png">
 </p>
@@ -22,12 +28,12 @@ Add Reset and Mixins function to Vuex
 ## Install
 You can install it via NPM
 ```console
-npm install vuex-extensions
+npm install vuex-extensions@1.1.5
 ```
 
 or YARN
 ```console
-yarn add vuex-extensions
+yarn add vuex-extensions@1.1.5
 ```
 
 ## Usage
