@@ -29,12 +29,12 @@ Add Reset and Mixins function to Vuex
 ## Install
 You can install it via NPM
 ```console
-npm install vuex-extensions@1.1.5
+npm install vuex-extensions@1.2.2
 ```
 
 or YARN
 ```console
-yarn add vuex-extensions@1.1.5
+yarn add vuex-extensions@1.2.2
 ```
 
 ## Usage
