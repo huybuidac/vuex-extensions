@@ -1,6 +1,6 @@
 {
   "name": "vuex-extensions",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Add Reset and Mixins function to Vuex",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
