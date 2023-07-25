@@ -104,6 +104,26 @@ describe('Store->reset', () => {
     expect(store.state.child.count).toBe(1)
     expect(store.state.child.grandchild.count).toBe(1)
     done()
+  }) 
+  
+  it('#95 Reset Set object', done => {
+    const store = createStore(Vuex.Store, {
+      state: {
+        obj: new Set(),
+      },
+      mutations: {
+        [TEST]: state => {
+          state.obj.add(1);
+        }
+      }
+    })
+    store.commit(TEST)
+
+    expect(store.state.obj.size).toBe(1)
+    store.reset()
+
+    expect(store.state.obj.size).toBe(0)
+    done()
   })
 
   it('reset twice', done => {
