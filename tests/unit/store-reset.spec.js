@@ -120,6 +120,29 @@ describe('Store->reset', () => {
     })
   })
 
+  it('#95 Reset Set object', done => {
+    const store = createStore(Vuex.Store, {
+      state: {
+        obj: new Set(),
+      },
+      mutations: {
+        [TEST]: state => {
+          state.obj.add(1);
+        }
+      }
+    })
+    store.commit(TEST)
+
+    Vue.nextTick(() => {
+      expect(store.state.obj.size).toBe(1)
+      store.reset()
+      Vue.nextTick(() => {
+        expect(store.state.obj.size).toBe(0)
+        done()
+      })
+    })
+  })
+
   it('reset twice', done => {
     const store = createStore(Vuex.Store, {
       state: {

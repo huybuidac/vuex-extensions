@@ -1,4 +1,4 @@
-import { deepCopy } from './util'
+const deepCopy = require('./util')({circles: true})
 
 const createStore = (vuexStoreClass, options = {}) => {
   const mixins = options.mixins || {}
